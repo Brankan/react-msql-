@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles/milligram.css">
+
+    <title>Add book</title>
+</head>
+<body>
+    <form class="container">
+        <fieldset>
+          <label for="Tytul">Name</label>
+          <input type="text"id="Tytul">
+
+          <label for="Kategoria">Category</label>
+          <input type="text"id="Kategoria" required>
+
+          <label for="Data_wydania_ksiazki">Date</label>
+          <input type="date" id="Data_wydania_ksiazki" required>
+
+          <label for="Klient_Rezerwacja">Reservation</label>
+          <input type="int" id="Klient_Rezerwacja" required>
+
+          <label for="Data_zwroty">Date_back</label>
+          <input type="date" id="Data_zwroty" required>
+
+          <input class="button-primary" type="submit" value="Dodaj">
+        </fieldset>
+
+        <a href="index.html">ESC</a>
+      </form>
+
+      <script>
+        const form = document.querySelector('form')
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const data = {
+            Tytul: document.querySelector('#Tytul').value,
+            Kategoria: document.querySelector('#Kategoria').value,
+            Data_wydania_ksiazki: document.querySelector('#Data_wydania_ksiazki').value,
+            Klient_Rezerwacja: document.querySelector('#Klient_Rezerwacja').value,
+            Data_zwroty: document.querySelector('#Data_zwroty').value
+          };
+
+          fetch('/api/ksiazki', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+            .then(data => {
+              document.location.href = 'index.html'
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        })
+      </script>
+</body>
+</html>

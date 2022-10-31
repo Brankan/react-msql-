@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles/milligram.css">
+
+    <title>Document</title>
+</head>
+
+<body class="container">
+    <table id="uczniowie">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Reservation</th>
+                <th>Date_back</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <a class="button button-outline" href="dodaj.html">Add boook</a>
+
+    <script>
+        fetch('/api/ksiazki')
+            .then(response => response.json())
+            .then(ksiazki => render(ksiazki))
+
+        function render(ksiazki) {
+            const tbody = document.querySelector('#uczniowie tbody');
+
+            uczniowie.forEach(uczen => {
+                const tr = document.createElement('TR');
+                const tdName = document.createElement('TD')
+                tdName.innerText = uczen.Imie;
+                const tdSurname = document.createElement('TD')
+                tdSurname.innerText = uczen.Nazwisko;
+                const tdDob = document.createElement('TD')
+                tdDob.innerText = uczen.DataUrodzenia;  
+                const tdDel = document.createElement('TD')
+                tdDel.innerHTML = '<button class="button">&times;</button>';
+
+                tdDel.addEventListener('click', () => {
+
+                    if (confirm('Czy na pewno chcesz usunąć tego ucznia?')) {
+                        usunUcznia(ksiazki.Id_Ksiazki)
+                    }
+
+                })
+
+                tr.append(tdName, tdSurname, tdDob, tdDel);
+                tbody.append(tr);
+            });
+
+        }
+
+        function usunUcznia(Id_Ksiazki) {
+            const data = {
+                id: id
+            }
+
+            fetch('/api/Ksiazki', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(() => {
+                    location.reload()
+                })
+        }
+    </script>
+</body>
+
+</html>
